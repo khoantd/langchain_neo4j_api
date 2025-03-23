@@ -1,0 +1,9 @@
+neo4j
+langchain-openai
+langchain-neo4j
+tiktoken
+python-dotenv
+fastapi 
+python-jose[cryptography]
+pyjwt
+uvicorn

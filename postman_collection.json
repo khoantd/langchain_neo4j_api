@@ -1,0 +1,273 @@
+{
+    "info": {
+        "name": "Neo4j Vector API",
+        "description": "Collection for Neo4j Vector API endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8000/api",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Get JWT Token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/token",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "token"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Vector Operations",
+            "item": [
+                {
+                    "name": "Create Index",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/create-index",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "create-index"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"index_name\": \"test_index\",\n    \"node_label\": \"Document\",\n    \"embedding_property\": \"embedding\"\n    // dimensions is optional - will use embedding function's dimensions if not provided\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Drop Index",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/drop-index/test_index",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "drop-index", "test_index"]
+                        }
+                    }
+                },
+                {
+                    "name": "List Indexes",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/list-indexes",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "list-indexes"]
+                        }
+                    }
+                },
+                {
+                    "name": "Check Text Properties",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/check-text-properties",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "check-text-properties"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"node_label\": \"System\",\n    \"text_properties\": [\"type\", \"name\", \"description\"]\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Fix Text Properties",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/fix-text-properties",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "fix-text-properties"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"node_label\": \"System\",\n    \"text_properties\": [\"type\", \"name\", \"description\"]\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Insert Text",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/insert-text",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "insert-text"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"text\": \"This is a sample text for testing vector search. It contains information about artificial intelligence and machine learning.\",\n    \"existing_index\": \"test_index\",\n    \"chunk_size\": 1000,\n    \"chunk_overlap\": 0\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Load Existing Index",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/load-index/test_index",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "load-index", "test_index"]
+                        }
+                    }
+                },
+                {
+                    "name": "Load From Graph",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/load-from-graph",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "load-from-graph"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"index_name\": \"system_index\",\n    \"node_label\": \"System\",\n    \"text_node_properties\": [\"type\", \"name\", \"description\"],\n    \"embedding_node_property\": \"embedding\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Search Similar Text",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/search",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "search"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"query\": \"Tell me about artificial intelligence\",\n    \"index_name\": \"test_index\",\n    \"k\": 3\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Search All Indexes",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{jwt_token}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/vector/search-all",
+                            "host": ["{{base_url}}"],
+                            "path": ["vector", "search-all"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"query\": \"Tell me about artificial intelligence\",\n    \"k\": 3\n}"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+} 
